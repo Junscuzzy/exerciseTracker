@@ -3,9 +3,21 @@ import express, { Request, Response } from 'express'
 import cors from 'cors'
 import bodyParser from 'body-parser'
 import path from 'path'
+import mongoose from 'mongoose'
+
+import exerciseRoutes from './routes/exercise'
 
 const app = express()
 const port = process.env.PORT || 3000
+
+mongoose.connect('mongodb+srv://junscuzzy:kJLgM40a9vX1qOJb@cluster0-hfutl.mongodb.net/test?retryWrites=true&w=majority',
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log('Connexion à MongoDB réussie !'))
+  .catch(() => console.log('Connexion à MongoDB échouée !'))
+
 
 app.use(cors())
 
@@ -17,6 +29,8 @@ app.use(express.static('public'))
 app.get('/', (req, res) => {
   res.sendFile(path.resolve('views/index.html'))
 })
+
+app.use('/api/exercise', exerciseRoutes)
 
 
 // Not found middleware

@@ -19,7 +19,27 @@ module.exports = {
   plugins: [
     '@typescript-eslint',
   ],
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [".js", ".jsx", ".ts", ".tsx"]
+      }
+    }
+  },
   rules: {
-    "semi": ["error", "never"]
+    "semi": ["error", "never"],
+    "import/extensions": [
+      "error",
+      "ignorePackages",
+      {
+        "js": "never",
+        "jsx": "never",
+        "ts": "never",
+        "tsx": "never"
+      }
+   ],
+   "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": "warn",
+    "no-underscore-dangle": "off"
   },
 };
