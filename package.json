@@ -5,7 +5,9 @@
   "license": "MIT",
   "scripts": {
     "tsc": "tsc",
-    "start": "node dist/server",
+    "postinstall": "yarn tsc",
+    "start": "yarn serve",
+    "serve": "node dist/server",
     "dev": "nodemon",
     "eslint": "eslint"
   },
