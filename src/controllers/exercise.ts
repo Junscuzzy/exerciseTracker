@@ -39,6 +39,32 @@ export function addExercise(req: Request, res: Response) {
     .catch((error) => res.status(500).json({ error }))
 }
 
-// export function getLog(req: Request, res: Response) {
-//   res.status(200).json({ msg: 'get log' })
-// }
+export function getLog(req: Request, res: Response) {
+  if (!req.query.userId) {
+    res.status(404).json({ error: 'UserId is required' })
+  }
+
+  Exercise.find({ userId: req.query.userId })
+    .then((exercises) => {
+      User.findOne({ _id: req.query.userId })
+        .then((user) => {
+          if (!user || user === null) {
+            res.status(404).json({ message: 'User non existant' })
+          }
+
+          const _id = user && user._id ? user._id : null
+          const username = user && user.username ? user.username : null
+
+          if (_id && username) {
+            res.status(200).json({
+              _id,
+              username,
+              count: exercises.length,
+              log: exercises,
+            })
+          }
+        })
+        .catch((error) => res.status(500).json({ error }))
+    })
+    .catch((error) => res.status(500).json({ error }))
+}
